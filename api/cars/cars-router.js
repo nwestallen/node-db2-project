@@ -12,4 +12,20 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+router.get('/:id', (req, res, next) => {
+    Car.getById(req.params.id)
+    .then(car => {
+        res.json(car);
+    })
+    .catch(err => next(err));
+});
+
+router.post('/', (req, res, next) => {
+    Car.create(req.body)
+    .then(newCar => {
+        res.status(201).json(newCar);
+    })
+    .catch(err => next(err));
+});
+
 module.exports = router;
