@@ -1,5 +1,6 @@
 // DO YOUR MAGIC
 const express = require('express');
+const { checkCarId } = require('./cars-middleware');
 const Car = require('./cars-model');
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkCarId, (req, res, next) => {
     Car.getById(req.params.id)
     .then(car => {
         res.json(car);
