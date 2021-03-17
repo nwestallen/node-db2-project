@@ -1,6 +1,6 @@
 // DO YOUR MAGIC
 const express = require('express');
-const { checkCarId, checkCarPayload, checkVinNumberUnique } = require('./cars-middleware');
+const { checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid } = require('./cars-middleware');
 const Car = require('./cars-model');
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get('/:id', checkCarId, (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.post('/', checkCarPayload, checkVinNumberUnique, (req, res, next) => {
+router.post('/', checkCarPayload, checkVinNumberUnique, checkVinNumberValid, (req, res, next) => {
     Car.create(req.body)
     .then(newCar => {
         res.status(201).json(newCar);
