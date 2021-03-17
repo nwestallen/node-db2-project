@@ -37,7 +37,17 @@ const checkVinNumberValid = (req, res, next) => {
 
 const checkVinNumberUnique = (req, res, next) => {
   // DO YOUR MAGIC
-}
+  Car.getByVin(req.body.vin)
+  .then(car => {
+    if (car) {
+      res.status(400).json({ message: `vin ${req.body.vin} already exists`})
+    } else {
+      req.car = car
+      next()
+    }
+  })
+  .catch(err => next(err));
+};
 
 module.exports = {
   checkCarId,
